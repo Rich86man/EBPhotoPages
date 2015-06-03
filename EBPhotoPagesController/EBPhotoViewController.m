@@ -443,6 +443,7 @@ static NSString *TagPopoversKeyPath = @"tagPopovers";
 {
     [self setComments:comments];
     [self.commentsView reloadComments];
+    [[NSNotificationCenter defaultCenter] postNotificationName:EBPhotoViewControllerDidUpdateCommentsNotification object:self];
 }
 
 - (void)setCommentingEnabled:(BOOL)enableCommenting
