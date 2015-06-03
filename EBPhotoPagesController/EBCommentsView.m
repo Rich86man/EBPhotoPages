@@ -55,10 +55,11 @@
 - (void)initialize
 {
     [self setClipsToBounds:NO];
-    UIColor *backgroundColor = [UIColor colorWithWhite:0 alpha:0.75];
+    UIColor *backgroundColor = [UIColor colorWithWhite:0 alpha:0.65];
     [self setBackgroundColor:backgroundColor];
     [self loadTableView];
     [self loadPostButton];
+    
     [self loadCommentTextView];
     [self loadPlaceholderForTextView:self.commentTextView];
     [self loadKeyboardFillerView];
@@ -74,11 +75,11 @@
                                        self.frame.size.width,
                                        self.frame.size.height-40);
     EBCommentsTableView *tableView = [[EBCommentsTableView alloc] initWithFrame:tableViewFrame
-                                                          style:UITableViewStylePlain];
+                                                                          style:UITableViewStylePlain];
     [tableView setBackgroundColor:[UIColor clearColor]];
     [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [tableView setIndicatorStyle:UIScrollViewIndicatorStyleWhite];
-    //[tableView setContentInset:UIEdgeInsetsMake(70, 0, 0, 0)];
+    //    [tableView setContentInset:UIEdgeInsetsMake(70, 0, 0, 0)];
     [tableView setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleWidth];
     [self setTableView:tableView];
     [self addSubview:tableView];
@@ -98,7 +99,7 @@
     
     UITextView *textView = [[UITextView alloc] initWithFrame:textViewFrame];
     [textView setBackgroundColor:[UIColor clearColor]];
-    [textView setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16]];
+    [textView setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
     [textView setKeyboardAppearance:UIKeyboardAppearanceAlert];
     [textView setTextColor:[UIColor whiteColor]];
     //[self setAutoresizingMask:UIViewAutoresizingFlexibleTopMargin|  UIViewAutoresizingFlexibleWidth];
@@ -141,7 +142,7 @@
                                     buttonSize.height);
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setFrame:buttonFrame];
-    [button setTitle:NSLocalizedString(@"post", @"Appears on a button that posts a comment when tapped.")
+    [button setTitle:NSLocalizedString(@"Post", @"Appears on a button that posts a comment when tapped.")
             forState:UIControlStateNormal];
     [button addTarget:self
                action:@selector(didSelectPostButton:)
@@ -154,15 +155,15 @@
     
     [button setBackgroundColor:[self postButtonColor]];
     
-    [button.layer setCornerRadius:4.0];
+    [button.layer setCornerRadius:2.0];
     [button.layer setShadowColor:[[UIColor blackColor] CGColor]];
     [button.layer setShadowOffset:CGSizeMake(0, 1)];
     [button.layer setShadowOpacity:0.5];
     [button.layer setShadowRadius:1];
     
-    [button.titleLabel setFont:[UIFont systemFontOfSize:16]];
+    [button.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:18]];
     [button.titleLabel setTextColor:[UIColor colorWithWhite:0.85 alpha:1]];
-    [button setTitleColor:[UIColor colorWithWhite:0.25 alpha:1]
+    [button setTitleColor:[UIColor colorWithWhite:0.05 alpha:1]
                  forState:UIControlStateHighlighted];
     
 }
@@ -196,7 +197,7 @@
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          [self.postButton setAlpha:alpha];
-    }completion:nil];
+                     }completion:nil];
 }
 
 - (void)setInputPlaceholderEnabled:(BOOL)enabled
@@ -250,7 +251,7 @@
 
 - (UIColor *)postButtonColor
 {
-    return [UIColor colorWithRed:0 green:118/255.0 blue:1.0 alpha:1.0];
+    return [UIColor colorWithRed:42.0/255.0 green:201.0/255.0 blue:212.0/255.0 alpha:1];
 }
 
 - (NSString *)commentInputPlaceholderText

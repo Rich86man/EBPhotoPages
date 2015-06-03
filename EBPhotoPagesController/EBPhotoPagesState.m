@@ -39,7 +39,7 @@
        didSelectCancelButton:(id)sender{}
 
 - (void)photoPagesController:(EBPhotoPagesController *)controller
-       didSelectTagButton:(id)sender{}
+          didSelectTagButton:(id)sender{}
 
 - (void)photoPagesController:(EBPhotoPagesController *)controller
      didSelectActivityButton:(id)sender{}
@@ -82,7 +82,7 @@
 
 - (void)photoPagesController:(EBPhotoPagesController *)controller
           didFinishAddingTag:(EBTagPopover *)tagPopover
-            forPhotoAtIndex:(NSInteger)index{}
+             forPhotoAtIndex:(NSInteger)index{}
 
 - (void)photoPagesController:(EBPhotoPagesController *)controller
           textFieldDidReturn:(UITextField *)textField{}
@@ -125,7 +125,8 @@
          didSelectMiscButton:(id)sender
 {
     NSInteger photoIndex = [controller currentPhotoIndex];
-    [controller showActionSheetForPhotoAtIndex:photoIndex];
+    //    [controller showActionSheetForPhotoAtIndex:photoIndex];
+    
 }
 
 
@@ -133,6 +134,7 @@
      didSelectCommentsButton:(id)sender
 {
     [controller enterCommentsMode];
+    
 }
 
 - (void)photoPagesController:(EBPhotoPagesController *)controller
@@ -144,14 +146,18 @@
 - (void)photoPagesController:(EBPhotoPagesController *)controller
           didSelectTagButton:(id)sender
 {
-    [controller enterTaggingMode];
+    //    [controller enterTaggingMode];
 }
 
 - (void)photoPagesController:(EBPhotoPagesController *)controller
  didTouchPhotoViewController:(EBPhotoViewController *)photoViewController
            atNormalizedPoint:(CGPoint)normalizedTouchPoint
 {
+    
     [photoViewController.photoView bouncePhoto];
+    [controller enterCommentsMode];
+    //    [controller presentActivitiesForPhotoViewController:photoViewController];
+    
 }
 
 
@@ -164,12 +170,16 @@
         
         if([controller.photosDataSource respondsToSelector:@selector(photoPagesController:didReceiveLongPress:forPhotoAtIndex:)])
         {
-            [controller.photosDataSource photoPagesController:controller
-                                          didReceiveLongPress:longPressGesture
-                                              forPhotoAtIndex:[photoIndex integerValue]];
+            //            [controller.photosDataSource photoPagesController:controller
+            //                                          didReceiveLongPress:longPressGesture
+            //                                              forPhotoAtIndex:[photoIndex integerValue]];
+            
+            //don't use this yet, but maybe write a delegate to use this photoAtIndex to populate content for people picker
+            //[controller enterTaggingMode];
             
         } else {
-            [controller showActionSheetForPhotoAtIndex:[photoIndex integerValue]];
+            //            [controller showActionSheetForPhotoAtIndex:[photoIndex integerValue]];
+            [controller enterTaggingMode];
         }
     }
 }
@@ -179,7 +189,7 @@
          didReceiveSingleTap:(UITapGestureRecognizer *)singleTapGesture
             withNotification:(NSNotification *)aNotification
 {
-    [controller enterBrowsingModeWithInterfaceHidden];
+    [controller enterBrowsingMode];
 }
 
 
@@ -234,14 +244,16 @@
 - (void)photoPagesController:(EBPhotoPagesController *)controller
       didTransitionFromState:(EBPhotoPagesState *)previousState
 {
-    [controller setInterfaceHidden:YES];
+    [controller setInterfaceHidden:NO];
+    [controller enterBrowsingMode];
 }
 
 
 - (void)photoPagesController:(EBPhotoPagesController *)controller
        willTransitionToState:(EBPhotoPagesState *)nextState
 {
-    [controller setInterfaceHidden:NO];
+    //    [controller setInterfaceHidden:NO];
+    [controller enterBrowsingMode];
 }
 
 
@@ -250,6 +262,70 @@
             withNotification:(NSNotification *)aNotification
 {
     [controller enterBrowsingMode];
+    
+}
+
+
+@end
+
+
+
+
+
+
+
+#pragma mark -
+#pragma mark - EBPhotoPagesStateCommentingIdle
+@implementation EBPhotoPagesStateCommentingIdle
+
+- (void)photoPagesController:(EBPhotoPagesController *)controller
+      didTransitionFromState:(EBPhotoPagesState *)previousState
+{
+    [controller setInterfaceHidden:NO];
+    
+    [controller setCaptionAlpha:0];
+    [controller setLowerGradientAlpha:0];
+    [controller setCommentsHidden:NO];
+    [controller setUpperBarAlpha:1];
+    [controller cancelCommenting];
+    
+    //    [controller cancelBarButtonItem];
+    //    UIBarButtonItem *cancel = [controller cancelBarButtonItem];
+}
+- (void)photoPagesController:(EBPhotoPagesController *)controller
+       didSelectCancelButton:(id)sender{
+    [controller enterBrowsingMode];
+}
+
+
+- (void)photoPagesController:(EBPhotoPagesController *)controller
+       willTransitionToState:(EBPhotoPagesState *)nextState
+{
+    [controller setCaptionAlpha:1];
+    [controller setUpperBarAlpha:1];
+    [controller setLowerGradientAlpha:1];
+    [controller setCommentsHidden:YES];
+}
+
+- (void)photoPagesController:(EBPhotoPagesController *)controller
+     didSelectCommentsButton:(id)sender
+{
+    [controller enterBrowsingMode];
+}
+
+- (void)photoPagesController:(EBPhotoPagesController *)controller didTransitionToPageAtIndex:(NSInteger)pageIndex
+{
+    [controller setCommentsHidden:YES];
+    [controller enterBrowsingMode];
+    
+}
+
+- (void)photoPagesController:(EBPhotoPagesController *)controller
+         didReceiveSingleTap:(UITapGestureRecognizer *)singleTapGesture
+            withNotification:(NSNotification *)aNotification
+{
+    //    [controller cancelCommenting];
+    
 }
 
 
@@ -257,60 +333,63 @@
 
 
 #pragma mark -
-#pragma mark - EBPhotoPagesStateTaggingNew
-@implementation EBPhotoPagesStateTaggingNew
+#pragma mark - EBPhotoPagesStateCommentingNew
+@implementation EBPhotoPagesStateCommentingNew
 
 
 - (void)photoPagesController:(EBPhotoPagesController *)controller
       didTransitionFromState:(EBPhotoPagesState *)previousState
 {
+    [controller setInterfaceHidden:NO];
     [controller setCaptionAlpha:0];
-    [controller setLowerBarAlpha:0];
-    [controller setTaggingLabelHidden:YES];
-}
-
-- (void)photoPagesController:(EBPhotoPagesController *)controller willTransitionToState:(EBPhotoPagesState *)nextState
-{
+    [controller setLowerGradientAlpha:0];
+    [controller setUpperBarAlpha:1];
+    [controller setCommentsHidden:NO];
     
 }
 
 - (void)photoPagesController:(EBPhotoPagesController *)controller
-          didFinishAddingTag:(EBTagPopover *)tagPopover
-             forPhotoAtIndex:(NSInteger)index
+ didTouchPhotoViewController:(EBPhotoViewController *)photoViewController
+           atNormalizedPoint:(CGPoint)normalizedTouchPoint
 {
-    id<EBPhotoPagesDataSource> datasource = controller.photosDataSource;
-    if([datasource respondsToSelector:@selector(photoPagesController:
-                                                             didAddNewTagAtPoint:
-                                                             withText:
-                                                             forPhotoAtIndex:
-                                                             tagInfo:)]){
-        
-        [datasource  photoPagesController:controller
-                    didAddNewTagAtPoint:tagPopover.normalizedArrowPoint
-                               withText:tagPopover.text
-                        forPhotoAtIndex:index
-                                tagInfo:nil];
-    }
+    [photoViewController.photoView bouncePhoto];
+    [controller enterBrowsingMode];
+    //    [controller presentActivitiesForPhotoViewController:photoViewController];
+}
+
+- (void)photoPagesController:(EBPhotoPagesController *)controller
+         didReceiveSingleTap:(UITapGestureRecognizer *)singleTapGesture
+            withNotification:(NSNotification *)aNotification
+{
+    [controller cancelCommenting];
+    [controller enterBrowsingMode];
     
-    //[tagPopover removeFromSuperview];
-    [controller enterTaggingMode];
+    
 }
 
 
 - (void)photoPagesController:(EBPhotoPagesController *)controller
        didSelectCancelButton:(id)sender
 {
-    [controller cancelCurrentTagging];
-    [controller enterTaggingMode];
+    [controller cancelCommenting];
+    [controller enterBrowsingMode];
 }
 
 - (void)photoPagesController:(EBPhotoPagesController *)controller didTransitionToPageAtIndex:(NSInteger)pageIndex
 {
-    [controller cancelCurrentTagging];
+    [controller cancelCommenting];
     [controller enterBrowsingMode];
 }
 
+
+
+
 @end
+
+
+
+
+
 
 
 #pragma mark -
@@ -319,10 +398,10 @@
 
 - (void)photoPagesController:(EBPhotoPagesController *)controller
  didTouchPhotoViewController:(EBPhotoViewController *)photoViewController
-        atNormalizedPoint:(CGPoint)normalizedTouchPoint
+           atNormalizedPoint:(CGPoint)normalizedTouchPoint
 {
     BOOL taggingIsAllowed = [controller.photosDataSource respondsToSelector:
-                         @selector(photoPagesController:shouldAllowTaggingForPhotoAtIndex:)] ?
+                             @selector(photoPagesController:shouldAllowTaggingForPhotoAtIndex:)] ?
     [controller.photosDataSource photoPagesController:controller
                     shouldAllowTaggingForPhotoAtIndex:photoViewController.photoIndex] : YES;
     
@@ -332,7 +411,7 @@
         [photoViewController tagPhotoAtNormalizedPoint:normalizedTouchPoint];
     }
     
- 
+    
 }
 
 - (void)photoPagesController:(EBPhotoPagesController *)controller
@@ -364,69 +443,59 @@
 }
 
 @end
-
-
 #pragma mark -
-#pragma mark - EBPhotoPagesStateCommentingIdle
-@implementation EBPhotoPagesStateCommentingIdle
+#pragma mark - EBPhotoPagesStateTaggingNew
+@implementation EBPhotoPagesStateTaggingNew
+
 
 - (void)photoPagesController:(EBPhotoPagesController *)controller
       didTransitionFromState:(EBPhotoPagesState *)previousState
 {
-    //[controller setTagsHidden:NO];
     [controller setCaptionAlpha:0];
-    [controller setLowerGradientAlpha:0];
-    [controller setCommentsHidden:NO];
-    //[controller startCommenting];
+    [controller setLowerBarAlpha:0];
+    [controller setTaggingLabelHidden:YES];
+}
+
+- (void)photoPagesController:(EBPhotoPagesController *)controller willTransitionToState:(EBPhotoPagesState *)nextState
+{
     
 }
 
 - (void)photoPagesController:(EBPhotoPagesController *)controller
-       willTransitionToState:(EBPhotoPagesState *)nextState
+didFinishAddingTag:(EBTagPopover *)tagPopover
+forPhotoAtIndex:(NSInteger)index
 {
-    [controller setCaptionAlpha:1];
-    [controller setLowerGradientAlpha:1];
-    [controller setCommentsHidden:YES];
-}
-
-- (void)photoPagesController:(EBPhotoPagesController *)controller
-     didSelectCommentsButton:(id)sender
-{
-    [controller enterBrowsingMode];
-}
-
-- (void)photoPagesController:(EBPhotoPagesController *)controller
-       didSelectCancelButton:(id)sender
-{
-    [controller enterBrowsingMode];
-}
-
-@end
-
-
-#pragma mark -
-#pragma mark - EBPhotoPagesStateCommentingNew
-@implementation EBPhotoPagesStateCommentingNew
-
-- (void)photoPagesController:(EBPhotoPagesController *)controller
-      didTransitionFromState:(EBPhotoPagesState *)previousState
-{
-    [controller setCaptionAlpha:0];
-    [controller setLowerGradientAlpha:0];
-    [controller setCommentsHidden:NO];
+    id<EBPhotoPagesDataSource> datasource = controller.photosDataSource;
+    if([datasource respondsToSelector:@selector(photoPagesController:
+                                                didAddNewTagAtPoint:
+                                                withText:
+                                                forPhotoAtIndex:
+                                                tagInfo:)]){
+        
+        [datasource  photoPagesController:controller
+                      didAddNewTagAtPoint:tagPopover.normalizedArrowPoint
+                                 withText:tagPopover.text
+                          forPhotoAtIndex:index
+                                  tagInfo:nil];
+    }
+    
+    //[tagPopover removeFromSuperview];
+    [controller enterTaggingMode];
 }
 
 
-
 - (void)photoPagesController:(EBPhotoPagesController *)controller
-       didSelectCancelButton:(id)sender
+didSelectCancelButton:(id)sender
 {
-    [controller cancelCommenting];
+    [controller cancelCurrentTagging];
+    [controller enterTaggingMode];
 }
 
 - (void)photoPagesController:(EBPhotoPagesController *)controller didTransitionToPageAtIndex:(NSInteger)pageIndex
 {
-    [controller cancelCommenting];
+    [controller enterBrowsingMode];
+    [controller cancelCurrentTagging];
+    
 }
 
 @end

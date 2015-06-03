@@ -54,7 +54,7 @@
 
 - (void)initialize
 {
-    [self loadAuthorAvatar];
+    //    [self loadAuthorAvatar];
     [self loadAuthorNameButton];
     [self loadCommentTextLabel];
     [self loadDateLabel];
@@ -71,18 +71,18 @@
 
 - (void)loadAuthorAvatar
 {
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 40, 40)];
-    [self.imageView setContentMode:UIViewContentModeScaleAspectFill];
-    [self addSubview:imageView];
-    [self setAuthorAvatar:imageView];
+    //    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+    //    [self.imageView setContentMode:UIViewContentModeScaleAspectFill];
+    //    [self addSubview:imageView];
+    //    [self setAuthorAvatar:imageView];
+    //    self.imageView.layer.hidden = YES;
 }
 
 - (void)loadAuthorNameButton
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    
-    [button.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:12]];
-    [button.titleLabel setTextColor:[UIColor colorWithWhite:0.8 alpha:1]];
+    [button.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:13]];
+    [button.titleLabel setTextColor:[UIColor colorWithWhite:0.8 alpha:.7]];
     [button.titleLabel setShadowColor:[UIColor colorWithWhite:0 alpha:0.5]];
     [button.titleLabel setShadowOffset:CGSizeMake(0, 1)];
     [button.titleLabel setBackgroundColor:[UIColor clearColor]];
@@ -92,7 +92,7 @@
     [button setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
     [button setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     
-    [button setFrame:CGRectMake(55, 5, 95, 12)];
+    [button setFrame:CGRectMake(15, 5, 95, 12)];
     [self setAuthorNameButton:button];
     [self addSubview:button];
 }
@@ -102,14 +102,14 @@
     UILabel *textLabel = [UILabel new];
     [textLabel setBackgroundColor:[UIColor redColor]];
     [textLabel setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
-    [textLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16]];
+    [textLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Regular" size:17]];
     [textLabel setTextColor:[UIColor whiteColor]];
     [textLabel setShadowColor:[UIColor colorWithWhite:0 alpha:0.5]];
     [textLabel setShadowOffset:CGSizeMake(0, 1)];
     [textLabel setBackgroundColor:[UIColor clearColor]];
     [textLabel setNumberOfLines:10000];
     
-    [textLabel setFrame:CGRectMake(55, 18, 255, 25)];
+    [textLabel setFrame:CGRectMake(15, 18, 255, 25)];
     [self setCommentTextLabel:textLabel];
     [self addSubview:textLabel];
     
@@ -118,7 +118,6 @@
 - (void)loadDateLabel
 {
     UILabel *dateLabel = [UILabel new];
-    
     [dateLabel setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin];
     [dateLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:12]];
     [dateLabel setTextColor:[UIColor colorWithWhite:0.8 alpha:1]];
@@ -126,7 +125,6 @@
     [dateLabel setShadowOffset:CGSizeMake(0, 1)];
     [dateLabel setBackgroundColor:[UIColor clearColor]];
     [dateLabel setTextAlignment:NSTextAlignmentRight];
-    
     [dateLabel setFrame:CGRectMake(170, 5, 140, 12)];
     [self setDateLabel:dateLabel];
     [self addSubview:dateLabel];
@@ -137,22 +135,23 @@
 {
     NSAssert([comment conformsToProtocol:@protocol(EBPhotoCommentProtocol)], @"Comment object must conform to EBPhotoCommentProtocol");
     NSAssert(self.authorNameButton, @"Must have an button for an author name.");
-    NSAssert(self.authorAvatar, @"Must have an image view for author images.");
+    //    NSAssert(self.authorAvatar, @"Must have an image view for author images.");
     NSAssert(self.commentTextLabel, @"Must have a label for comment text.");
     NSAssert(self.dateLabel, @"Must have a label for displaying dates.");
     
     if([comment respondsToSelector:@selector(authorName)]){
         [self.authorNameButton setTitle:[comment authorName]
-                           forState:UIControlStateNormal];
+                               forState:UIControlStateNormal];
     }
     
-    if([comment respondsToSelector:@selector(authorAvatar)]){
-        [self.authorAvatar setImage:[comment authorAvatar]];
-        [self.authorAvatar.layer setMasksToBounds:YES];
-        [self.authorAvatar.layer setRasterizationScale:[UIScreen mainScreen].scale];
-        [self.authorAvatar.layer setShouldRasterize:YES];
-        [self.authorAvatar.layer setCornerRadius:5.0];
-    }
+    //    if([comment respondsToSelector:@selector(authorAvatar)]){
+    //        [self.authorAvatar setImage:[comment authorAvatar]];
+    //        [self.authorAvatar.layer setMasksToBounds:YES];
+    //        [self.authorAvatar.layer setRasterizationScale:[UIScreen mainScreen].scale];
+    //        [self.authorAvatar.layer setShouldRasterize:YES];
+    //        [self.authorAvatar.layer setCornerRadius:5.0];
+    //
+    //    }
     
     if([comment respondsToSelector:@selector(attributedCommentText)] &&
        [comment attributedCommentText]){
@@ -186,8 +185,8 @@
 - (void)resizeTextLabel
 {
     NSString *textForRow = self.commentTextLabel.attributedText ?
-                                    self.commentTextLabel.attributedText.string :
-                                    self.commentTextLabel.text;
+    self.commentTextLabel.attributedText.string :
+    self.commentTextLabel.text;
     
     //Get values from the comment cell itself, as an abstract class perhaps.
     //OR better, from reference cells dequeued from the table
@@ -224,7 +223,7 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 

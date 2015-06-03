@@ -76,7 +76,7 @@ static NSString *TagPopoversKeyPath = @"tagPopovers";
     [self setView:mainView];
     
     EBPhotoView *newPhotoScrollView = [[EBPhotoView alloc]
-                                        initWithFrame:viewFrame];
+                                       initWithFrame:viewFrame];
     [self setPhotoView:newPhotoScrollView];
     [mainView addSubview:newPhotoScrollView];
     
@@ -107,7 +107,7 @@ static NSString *TagPopoversKeyPath = @"tagPopovers";
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillBeHidden:)
                                                  name:UIKeyboardWillHideNotification object:nil];
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardDidChangeFrame:)
                                                  name:UIKeyboardWillChangeFrameNotification
@@ -138,7 +138,7 @@ static NSString *TagPopoversKeyPath = @"tagPopovers";
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(deleteCellWithNotification:) name:@"CellDidRequestSelfDeletion"
                                                object:nil];
-
+    
     [self addObserver:self
            forKeyPath:TagPopoversKeyPath
               options:NSKeyValueObservingOptionNew
@@ -187,7 +187,7 @@ static NSString *TagPopoversKeyPath = @"tagPopovers";
     
     EBTagPopover *activeTagPopover = [self.photoView activeTagPopover];
     if(activeTagPopover){
-
+        
         
         
         CGFloat bufferSpace = 15;
@@ -224,23 +224,23 @@ static NSString *TagPopoversKeyPath = @"tagPopovers";
     if(activeTagPopover == nil){
         
         /*NSDictionary* info = [notification userInfo];
-        CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-        NSValue* value = [info objectForKey:UIKeyboardAnimationDurationUserInfoKey];
-        NSTimeInterval duration;
-        [value getValue:&duration];
-        
-        
-        CGPoint adjustment = CGPointMake(0.0,
-                                         -(keyboardSize.height));
-        CGPoint newCenter = CGPointMake(self.commentsView.center.x+adjustment.x,
-                                        self.commentsView.center.y+adjustment.y);
-        [UIView animateWithDuration:duration
-                              delay:0
-                            options:UIViewAnimationCurveEaseOut|
+         CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+         NSValue* value = [info objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+         NSTimeInterval duration;
+         [value getValue:&duration];
+         
+         
+         CGPoint adjustment = CGPointMake(0.0,
+         -(keyboardSize.height));
+         CGPoint newCenter = CGPointMake(self.commentsView.center.x+adjustment.x,
+         self.commentsView.center.y+adjustment.y);
+         [UIView animateWithDuration:duration
+         delay:0
+         options:UIViewAnimationCurveEaseOut|
          UIViewAnimationOptionBeginFromCurrentState
-                         animations:^{
-                             [self.commentsView setCenter:newCenter];
-                         }completion:nil];*/
+         animations:^{
+         [self.commentsView setCenter:newCenter];
+         }completion:nil];*/
     }
 }
 
@@ -299,9 +299,9 @@ static NSString *TagPopoversKeyPath = @"tagPopovers";
     UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc]
                                                   initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     [activityIndicator setAutoresizingMask:UIViewAutoresizingFlexibleTopMargin|
-                                           UIViewAutoresizingFlexibleLeftMargin|
-                                           UIViewAutoresizingFlexibleRightMargin|
-                                           UIViewAutoresizingFlexibleBottomMargin];
+     UIViewAutoresizingFlexibleLeftMargin|
+     UIViewAutoresizingFlexibleRightMargin|
+     UIViewAutoresizingFlexibleBottomMargin];
     [activityIndicator setHidesWhenStopped:NO];
     [activityIndicator startAnimating];
     
@@ -458,6 +458,7 @@ static NSString *TagPopoversKeyPath = @"tagPopovers";
 - (void)startCommenting
 {
     [self.commentsView startCommenting];
+    
 }
 
 #pragma mark - Comments Tableview Datasource & Delegate
@@ -489,7 +490,7 @@ static NSString *TagPopoversKeyPath = @"tagPopovers";
         
         [self.commentsView.tableView reloadData];
         
-    //[self reloadData];
+        //[self reloadData];
     }
 }
 
@@ -546,7 +547,7 @@ static NSString *TagPopoversKeyPath = @"tagPopovers";
      CGSize textViewSize = textViewRect.size;
      */
     
-    CGRect textViewSize = [textForRow boundingRectWithSize:CGSizeMake(285, 1000) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Bold" size:16]} context:nil];
+    CGRect textViewSize = [textForRow boundingRectWithSize:CGSizeMake(285, 1000) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Bold" size:17]} context:nil];
     CGFloat textViewHeight = 25;
     const CGFloat additionalSpace = MinimumRowHeight - textViewHeight + 10;
     
@@ -562,7 +563,7 @@ static NSString *TagPopoversKeyPath = @"tagPopovers";
     EBCommentsView *commentsView = [self.delegate commentsViewForPhotoViewController:self];
     
     BOOL configureCell = [self.delegate respondsToSelector:@selector(photoViewController:shouldConfigureCommentCell:forRowAtIndexPath:withComment:)] ?
-            [self.delegate photoViewController:self shouldConfigureCommentCell:cell forRowAtIndexPath:indexPath withComment:comment] : YES;
+    [self.delegate photoViewController:self shouldConfigureCommentCell:cell forRowAtIndexPath:indexPath withComment:comment] : YES;
     
     if([cell isKindOfClass:[EBCommentCell class]] && configureCell){
         [cell setComment:comment];
@@ -723,7 +724,7 @@ static NSString *TagPopoversKeyPath = @"tagPopovers";
     NSMutableArray *newTagPopovers = [NSMutableArray array];
     for(id<EBPhotoTagProtocol>tag in tagsToShow){
         EBTagPopover *tagPopover = [self.delegate photoViewController:self
-                                                      tagPopoverForTag:tag];
+                                                     tagPopoverForTag:tag];
         [tagPopover setNormalizedArrowPoint:tag.normalizedPosition];
         [tagPopover setDelegate:self];
         [tagPopover setAlpha:0];
@@ -781,7 +782,7 @@ static NSString *TagPopoversKeyPath = @"tagPopovers";
 - (void)tagPhotoAtNormalizedPoint:(CGPoint)normalizedPoint
 {
     EBTagPopover *tagPopover = [[EBTagPopover alloc]
-                                 initWithDelegate:self];
+                                initWithDelegate:self];
     
     [self startTag:tagPopover atNormalizedPoint:normalizedPoint];
 }

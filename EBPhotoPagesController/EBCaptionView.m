@@ -65,7 +65,7 @@ static NSString *FrameKeyPath = @"frame";
     [self setShowsHorizontalScrollIndicator:NO];
     [self setShowsVerticalScrollIndicator:NO];
     [self setAutoresizingMask:UIViewAutoresizingFlexibleWidth|
-                              UIViewAutoresizingFlexibleHeight];
+     UIViewAutoresizingFlexibleHeight];
     [self beginObservations];
     [self loadContentViews];
 }
@@ -126,7 +126,7 @@ static NSString *FrameKeyPath = @"frame";
     [self.textLabel setText:nil];
     if([string isEqualToString:@""] || string == nil){
         [self.textLabel setText:@""];
-        [self setHidden:YES];
+        [self setHidden:NO];
         [self resetContentSize];
         [self resetContentOffset];
         return;
@@ -138,7 +138,7 @@ static NSString *FrameKeyPath = @"frame";
     [UIView animateWithDuration:totalFadeDuration/2.0
                           delay:0
                         options:UIViewAnimationCurveEaseOut|
-                                UIViewAnimationOptionBeginFromCurrentState
+     UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
                          [self.textLabel setAlpha:0];
                      }
@@ -147,16 +147,16 @@ static NSString *FrameKeyPath = @"frame";
                          [self setFrameForLabel:self.textLabel
                                      withString:string
                                     maximumSize:CGSizeMake(self.frame.size.width,
-                                                    MaximumCaptionTextHeight)];
+                                                           MaximumCaptionTextHeight)];
                          [self resetContentSize];
                          [self resetContentOffset];
                          
                          [UIView animateWithDuration:totalFadeDuration/2.0
                                                delay:0
                                              options:UIViewAnimationCurveEaseOut|
-                                                     UIViewAnimationOptionBeginFromCurrentState
+                          UIViewAnimationOptionBeginFromCurrentState
                                           animations:^{
-                             [self.textLabel setAlpha:1];
+                                              [self.textLabel setAlpha:1];
                                           }
                                           completion:nil];
                      }];
@@ -196,7 +196,7 @@ static NSString *FrameKeyPath = @"frame";
                          [self setFrameForLabel:self.textLabel
                                      withString:[attributedString string]
                                     maximumSize:CGSizeMake(self.frame.size.width,
-                                                    MaximumCaptionTextHeight)];
+                                                           MaximumCaptionTextHeight)];
                          [self resetContentSize];
                          [self resetContentOffset];
                          

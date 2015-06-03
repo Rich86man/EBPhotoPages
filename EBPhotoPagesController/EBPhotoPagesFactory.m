@@ -33,7 +33,7 @@
 #pragma mark - Photo View Controllers
 
 - (EBPhotoViewController *)photoViewControllerWithIndex:(NSInteger)index
-                                 forPhotoPagesController:(EBPhotoPagesController *)controller
+                                forPhotoPagesController:(EBPhotoPagesController *)controller
 {
     return [[EBPhotoViewController alloc] initWithIndex:index delegate:controller];
 }
@@ -43,7 +43,7 @@
 
 - (UIToolbar *)upperToolbarForPhotoPagesController:(EBPhotoPagesController *)controller
 {
-    const CGFloat DefaultToolbarHeight = 44;
+    const CGFloat DefaultToolbarHeight = 80;
     
     CGRect viewFrame = controller.view.frame;
     CGRect toolbarFrame = CGRectMake(0,
@@ -60,6 +60,7 @@
                   forToolbarPosition:UIToolbarPositionAny
                           barMetrics:UIBarMetricsDefault];
     return upperToolbar;
+    
 }
 
 - (UIToolbar *)lowerToolbarForPhotoPagesController:(EBPhotoPagesController *)controller
@@ -78,12 +79,14 @@
     UIToolbar *lowerToolbar = [EBPhotoToolbar toolbarWithFrame:toolbarFrame];
     [lowerToolbar setTintColor:[self lowerToolbarTintColor]];
     [lowerToolbar setAutoresizingMask:UIViewAutoresizingFlexibleWidth|
-                                      UIViewAutoresizingFlexibleTopMargin];
+     UIViewAutoresizingFlexibleTopMargin];
     [lowerToolbar setBackgroundImage:toolbarBackground
                   forToolbarPosition:UIToolbarPositionAny
                           barMetrics:UIBarMetricsDefault];
     
     return lowerToolbar;
+    //    self.doneButton.layer.borderColor = [UIColor colorWithRed:201.0/255.0 green:49.0/255.0 blue:96.0/255.0 alpha:1].CGColor;
+    //    self.doneButton.layer.borderWidth = 1;
 }
 
 
@@ -134,7 +137,6 @@
     } else if ([state isKindOfClass:[EBPhotoPagesStateCommentingIdle class]]){
         items = [self upperItemsForCommentingIdleStateInPhotoPagesController:controller];
     }
-    
     return items;
 }
 
@@ -162,6 +164,7 @@
     NSArray *items = @[flexibleSpace,cancel];
     return items;
 }
+
 
 - (NSArray *)upperItemsForCommentingNewStateInPhotoPagesController:(EBPhotoPagesController *)controller
 {
@@ -232,7 +235,7 @@
 - (UIBarButtonItem *)miscBarButtonItemForPhotoPagesController:(EBPhotoPagesController *)controller
 {
     UIImage *miscImage = [self iconForMiscBarButtonItemForPhotoPagesController:controller
-                                              forState:UIControlStateNormal];
+                                                                      forState:UIControlStateNormal];
     
     UIBarButtonItem *item = [[UIBarButtonItem alloc]
                              initWithImage:miscImage
@@ -262,7 +265,7 @@
 
 - (UIBarButtonItem *)commentsBarButtonItemForPhotoPagesController:(EBPhotoPagesController *)controller count:(NSInteger)numberOfComments
 {
-   
+    
     return [self commentsBarButtonItemForPhotoPagesController:controller withState:UIControlStateNormal count:numberOfComments];
 }
 
@@ -271,6 +274,7 @@
     UIImage *commentsImage = [self iconForCommentsBarButtonItemForPhotoPagesController:controller
                                                                               forState:buttonState
                                                                              withCount:numberOfComments];
+    
     
     UIBarButtonItem *item = [[UIBarButtonItem alloc]
                              initWithImage:commentsImage
@@ -320,8 +324,8 @@
     NSString *tagTitle = [self tagBarButtonTitleForPhotoPagesController:controller];
     UIBarButtonItem *tagButton = [self barButtonItemWithTitle:tagTitle
                                                         style:UIBarButtonItemStylePlain
-                                                        target:controller
-                                                      selector:@selector(didSelectTagButton:)];
+                                                       target:controller
+                                                     selector:@selector(didSelectTagButton:)];
     return tagButton;
 }
 
@@ -348,8 +352,8 @@
     [button setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin];
     [self decorateBarButtonCustomView:button barButtonStyle:style];
     [self sizeButtonToFitTitle:button withMinimumSize:[self minimumSizeForBarButtonCustomView]
-                                          withPadding:[self paddingForBarButtonCustomViewText]];
-
+                   withPadding:[self paddingForBarButtonCustomViewText]];
+    
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:button];
     [barButton setTintColor:[self photoPagesTintColor]];
     
@@ -375,10 +379,10 @@
     UIColor *buttonTintColor = [self photoPagesTintColor];
     
     //[customView setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.15]];
-
+    
     [customView.layer setCornerRadius:4.0];
-    //[customView.layer setBorderColor:[buttonTintColor CGColor]];
-    //[customView.layer setBorderWidth:1];
+    [customView.layer setBorderColor:[buttonTintColor CGColor]];
+    [customView.layer setBorderWidth:1];
     [customView.layer setShadowColor:[[UIColor blackColor] CGColor]];
     [customView.layer setShadowOffset:CGSizeMake(0, 1)];
     [customView.layer setShadowOpacity:1.0];
@@ -392,7 +396,7 @@
             fontName = [self photoPagesDefaultFontName];
         }
         
-        CGFloat fontSize = 18;
+        CGFloat fontSize = 17;
         UIFont *titleLabelFont = [UIFont fontWithName:fontName size:fontSize];
         
         UIButton *button = (UIButton *)customView;
@@ -404,14 +408,14 @@
 
 - (CGSize)minimumSizeForBarButtonCustomView
 {
-    const CGFloat DefaultMinimumWidth = 50;
-    const CGFloat DefaultMinimumHeight = 32;
+    const CGFloat DefaultMinimumWidth = 60;
+    const CGFloat DefaultMinimumHeight = 36;
     return CGSizeMake(DefaultMinimumWidth, DefaultMinimumHeight);
 }
 
 - (CGSize)paddingForBarButtonCustomViewText
 {
-    const CGFloat DefaultWidthPadding = 18;
+    const CGFloat DefaultWidthPadding = 20;
     const CGFloat DefaultHeightPadding = 0;
     return CGSizeMake(DefaultWidthPadding, DefaultHeightPadding);
 }
@@ -457,8 +461,8 @@
     EBShadedView *upperGradient = [EBShadedView upperGradientWithFrame:gradientRect];
     
     [upperGradient setAutoresizingMask:UIViewAutoresizingFlexibleWidth|
-                                       UIViewAutoresizingFlexibleBottomMargin |
-                                       UIViewAutoresizingFlexibleHeight];
+     UIViewAutoresizingFlexibleBottomMargin |
+     UIViewAutoresizingFlexibleHeight];
     return upperGradient;
 }
 
@@ -473,8 +477,8 @@
     EBShadedView *lowerGradient = [EBShadedView lowerGradientWithFrame:gradientRect];
     
     [lowerGradient setAutoresizingMask:UIViewAutoresizingFlexibleWidth|
-                                      UIViewAutoresizingFlexibleTopMargin|
-                                      UIViewAutoresizingFlexibleHeight];
+     UIViewAutoresizingFlexibleTopMargin|
+     UIViewAutoresizingFlexibleHeight];
     
     return lowerGradient;
 }
@@ -585,12 +589,12 @@
              actionSheetForPhotoAtIndex:(NSInteger)index
 {
     BOOL allowTagging = [controller.photosDataSource respondsToSelector:@selector(photoPagesController:shouldAllowTaggingForPhotoAtIndex:)] ?
-        [controller.photosDataSource photoPagesController:controller
-                        shouldAllowTaggingForPhotoAtIndex:index] : NO;
+    [controller.photosDataSource photoPagesController:controller
+                    shouldAllowTaggingForPhotoAtIndex:index] : NO;
     
     BOOL allowDelete = [controller.photosDataSource respondsToSelector:@selector(photoPagesController:shouldAllowDeleteForPhotoAtIndex:)] ?
-        [controller.photosDataSource photoPagesController:controller
-                         shouldAllowDeleteForPhotoAtIndex:index] : NO;
+    [controller.photosDataSource photoPagesController:controller
+                     shouldAllowDeleteForPhotoAtIndex:index] : NO;
     
     BOOL allowReport = [controller.photosDataSource respondsToSelector:@selector(photoPagesController:shouldAllowReportForPhotoAtIndex:)] ?
     [controller.photosDataSource photoPagesController:controller
@@ -627,7 +631,7 @@
     NSString *cancelTitle = [self actionSheetCancelButtonTitle];
     [actionSheet addButtonWithTitle:cancelTitle];
     [actionSheet setCancelButtonIndex:actionSheet.numberOfButtons-1];
-
+    
     return actionSheet;
 }
 
@@ -647,8 +651,8 @@
 
 
 - (EBTagPopover *)photoPagesController:(EBPhotoPagesController *)controller
-                       tagPopoverForTag:(id<EBPhotoTagProtocol>)tag
-                         inPhotoAtIndex:(NSInteger)index
+                      tagPopoverForTag:(id<EBPhotoTagProtocol>)tag
+                        inPhotoAtIndex:(NSInteger)index
 {
     return [[EBTagPopover alloc] initWithTag:tag];
 }
@@ -690,7 +694,7 @@
 
 // TODO: Put comment cell identifier in a better place.
 - (EBCommentsView *)photoPagesController:(EBPhotoPagesController *)photoPagesController
-       commentsViewForPhotoViewController:(EBPhotoViewController *)photoViewController;
+      commentsViewForPhotoViewController:(EBPhotoViewController *)photoViewController;
 {
     CGSize tableViewSize = CGSizeMake(photoViewController.view.frame.size.width,
                                       photoViewController.view.frame.size.height);
@@ -794,7 +798,7 @@
     CGPathAddLineToPoint(tagPath, NULL, CGRectGetMinX(iconFrame), 10);
     CGPathAddLineToPoint(tagPath, NULL, CGRectGetMinX(iconFrame), CGRectGetMinY(iconFrame));
     CGContextAddPath(composedImageContext, tagPath);
-
+    
     if(state == UIControlStateSelected){
         CGContextSetFillColorWithColor(composedImageContext, [[UIColor whiteColor] CGColor]);
         CGContextFillPath(composedImageContext);
@@ -813,7 +817,7 @@
 
 
 - (UIImage *)iconForMiscBarButtonItemForPhotoPagesController:(EBPhotoPagesController *)controller
-                                                 forState:(UIControlState)state
+                                                    forState:(UIControlState)state
 {
     CGFloat diameter = 6;
     CGFloat spacing = 4;
@@ -844,7 +848,7 @@
     } else {
         CGContextStrokePath(composedImageContext);
     }
-
+    
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
@@ -897,7 +901,7 @@
                              maxx*0.2, maxy*bottom_Y_Anchor,
                              minx, maxy*mid_Y_Anchor,
                              minx, midy);
-
+    
     CGContextClosePath(context);
     
     // Fill & stroke the path
@@ -999,7 +1003,7 @@
         CGContextStrokePath(context);
         [countLabel drawTextInRect:countLabelRect];
     }
-
+    
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     

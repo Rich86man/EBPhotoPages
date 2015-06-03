@@ -29,7 +29,7 @@ static NSString *TagsHiddenKeyPath = @"tagsHidden";
 static NSString *CommentsHiddenKeyPath = @"commentsHidden";
 static NSString *kActionSheetTargetKey = @"actionSheetTarget";
 static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
- 
+
 @interface EBPhotoPagesController ()
 
 @property (strong) NSDictionary *actionSheetTargetInfo; //info about the object the action sheet is currently handling
@@ -191,10 +191,10 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
                    viewControllerAtIndex:(NSInteger)index
 {
     if([self.photosDataSource photoPagesController:self
-                           shouldExpectPhotoAtIndex:index]){
+                          shouldExpectPhotoAtIndex:index]){
         EBPhotoViewController *newPhotoViewController = [self.photoPagesFactory
-                                                          photoViewControllerWithIndex:index
-                                                          forPhotoPagesController:self];
+                                                         photoViewControllerWithIndex:index
+                                                         forPhotoPagesController:self];
         [self loadDataForPhotoViewController:newPhotoViewController];
         return newPhotoViewController;
     }
@@ -235,7 +235,7 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
     NSMutableArray *mutableUpperItems = [NSMutableArray arrayWithArray:upperItems];
     NSMutableArray *mutableLowerItems = [NSMutableArray arrayWithArray:lowerItems];
     
-
+    
     BOOL taggingAllowed = [self.photosDataSource respondsToSelector:@selector(photoPagesController:shouldAllowTaggingForPhotoAtIndex:)] ?
     [self.photosDataSource photoPagesController:self
               shouldAllowTaggingForPhotoAtIndex:index] : YES;
@@ -261,7 +261,7 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
         [mutableUpperItems removeObject:self.tagBarButtonItem];
         [mutableLowerItems removeObject:self.tagBarButtonItem];
     }
-   
+    
     if(activitiesAllowed == NO){
         [mutableUpperItems removeObject:self.activityBarButtonItem];
         [mutableLowerItems removeObject:self.activityBarButtonItem];
@@ -287,7 +287,7 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
     
     NSInteger numberOfPhotoComments = photoViewController.comments.count;
     BOOL commentingAllowed = [self.photosDataSource respondsToSelector:@selector(photoPagesController:shouldAllowCommentingForPhotoAtIndex:)] ?
-                                            [self.photosDataSource photoPagesController:self shouldAllowCommentingForPhotoAtIndex:index] : YES;
+    [self.photosDataSource photoPagesController:self shouldAllowCommentingForPhotoAtIndex:index] : YES;
     if(numberOfPhotoComments == 0 && commentingAllowed == NO){
         [mutableUpperItems removeObject:self.commentsBarButtonItem];
         [mutableLowerItems removeObject:self.commentsBarButtonItem];
@@ -374,36 +374,36 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
 - (void)loadImageForPhotoViewController:(EBPhotoViewController *)photoViewController
 {
     EBImageLoadOperation *imageLoad = [[EBImageLoadOperation alloc]
-                                        initWithPhotoPagesController:self
-                                        photoViewController:photoViewController
-                                        dataSource:self.photosDataSource];
+                                       initWithPhotoPagesController:self
+                                       photoViewController:photoViewController
+                                       dataSource:self.photosDataSource];
     [self.photoLoadingQueue addOperation:imageLoad];
 }
 
 - (void)loadCaptionForPhotoViewController:(EBPhotoViewController *)photoViewController
 {
     EBCaptionLoadOperation *captionLoad = [[EBCaptionLoadOperation alloc]
-                                            initWithPhotoPagesController:self
-                                            photoViewController:photoViewController
-                                            dataSource:self.photosDataSource];
+                                           initWithPhotoPagesController:self
+                                           photoViewController:photoViewController
+                                           dataSource:self.photosDataSource];
     [self.photoLoadingQueue addOperation:captionLoad];
 }
 
 - (void)loadMetaDataForPhotoViewController:(EBPhotoViewController *)photoViewController
 {
     EBMetaDataLoadOperation *metaDataLoad = [[EBMetaDataLoadOperation alloc]
-                                              initWithPhotoPagesController:self
-                                              photoViewController:photoViewController
-                                              dataSource:self.photosDataSource];
+                                             initWithPhotoPagesController:self
+                                             photoViewController:photoViewController
+                                             dataSource:self.photosDataSource];
     [self.photoLoadingQueue addOperation:metaDataLoad];
 }
 
 - (void)loadTagsForPhotoViewController:(EBPhotoViewController *)photoViewController
 {
     EBTagsLoadOperation *tagsLoad = [[EBTagsLoadOperation alloc]
-                                      initWithPhotoPagesController:self
-                                      photoViewController:photoViewController
-                                      dataSource:self.photosDataSource];
+                                     initWithPhotoPagesController:self
+                                     photoViewController:photoViewController
+                                     dataSource:self.photosDataSource];
     [self.photoLoadingQueue addOperation:tagsLoad];
 }
 
@@ -416,9 +416,9 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
     [photoViewController setCommentingEnabled:commentingIsAllowed];
     
     EBCommentsLoadOperation *commentsLoad = [[EBCommentsLoadOperation alloc]
-                                              initWithPhotoPagesController:self
-                                              photoViewController:photoViewController
-                                                       dataSource:self.photosDataSource];
+                                             initWithPhotoPagesController:self
+                                             photoViewController:photoViewController
+                                             dataSource:self.photosDataSource];
     [self.photoLoadingQueue addOperation:commentsLoad];
 }
 
@@ -448,8 +448,8 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
 
 - (void)loadLowerGradient
 {
-    EBShadedView *lowerGradient = [self.photoPagesFactory 
-                                    lowerGradientViewForPhotoPagesController:self];
+    EBShadedView *lowerGradient = [self.photoPagesFactory
+                                   lowerGradientViewForPhotoPagesController:self];
     [self.view addSubview:lowerGradient];
     [self setLowerGradient:lowerGradient];
 }
@@ -542,7 +542,7 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
                                              selector:@selector(didRecognizeDoubleTapWithNotification:)
                                                  name:EBPhotoViewDoubleTapNotification
                                                object:nil];
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didRecognizeLongPressWithNotification:) name:EBPhotoViewLongPressNotification
                                                object:nil];
@@ -635,8 +635,8 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
     NSString *notificationName;
     if(object == self && [keyPath isEqualToString:TagsHiddenKeyPath]){
         notificationName = self.tagsHidden ? EBPhotoPagesControllerDidToggleTagsOff :
-                                             EBPhotoPagesControllerDidToggleTagsOn;
-
+        EBPhotoPagesControllerDidToggleTagsOn;
+        
         [[NSNotificationCenter defaultCenter] postNotificationName:notificationName
                                                             object:self];
         [self updateTagsToggleButton];
@@ -644,7 +644,7 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
     
     if(object == self && [keyPath isEqualToString:CommentsHiddenKeyPath]){
         notificationName = self.commentsHidden ? EBPhotoPagesControllerDidToggleCommentsOff :
-                                                 EBPhotoPagesControllerDidToggleCommentsOn;
+        EBPhotoPagesControllerDidToggleCommentsOn;
         
         [[NSNotificationCenter defaultCenter] postNotificationName:notificationName
                                                             object:self];
@@ -759,7 +759,7 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
     [UIView animateWithDuration:0.2
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseOut|
-                                UIViewAnimationOptionBeginFromCurrentState
+     UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
                          [self.captionView setAlpha:alpha];
                          if(alpha == 0.0){
@@ -770,16 +770,16 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
 
 - (void)setCommentsTableViewAlpha:(CGFloat)alpha
 {
-    /*[UIView animateWithDuration:0.2
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseOut|
-     UIViewAnimationOptionBeginFromCurrentState
-                     animations:^{
-                         [self.commentsTableView setAlpha:alpha];
-                         if(alpha == 0.0){
-                             [self.commentsTableView setContentOffset:CGPointZero];
-                         }
-                     }completion:nil];*/
+    //    [UIView animateWithDuration:0.2
+    //                          delay:0.0
+    //                        options:UIViewAnimationOptionCurveEaseOut|
+    //     UIViewAnimationOptionBeginFromCurrentState
+    //                     animations:^{
+    //                         [self.commentsTableView setAlpha:alpha];
+    //                         if(alpha == 0.0){
+    //                             [self.commentsTableView setContentOffset:CGPointZero];
+    //                         }
+    //                     }completion:nil];
 }
 
 
@@ -824,7 +824,7 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
 {
     UIImage *backgroundImage = [self.photoPagesFactory
                                 lowerToolbarBackgroundForPhotoPagesController:self
-                                                                      inState:state];
+                                inState:state];
     [self.lowerToolbar setBackgroundImage:backgroundImage
                        forToolbarPosition:UIToolbarPositionAny
                                barMetrics:UIBarMetricsDefault];
@@ -834,7 +834,7 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
 {
     UIImage *backgroundImage = [self.photoPagesFactory
                                 upperToolbarBackgroundForPhotoPagesController:self
-                                                                      inState:state];
+                                inState:state];
     
     [self.upperToolbar setBackgroundImage:backgroundImage
                        forToolbarPosition:UIToolbarPositionAny
@@ -1001,7 +1001,7 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
 {
     if(_miscBarButtonItem == nil){
         UIBarButtonItem *miscButton = [self.photoPagesFactory
-            miscBarButtonItemForPhotoPagesController:self];
+                                       miscBarButtonItemForPhotoPagesController:self];
         [self setMiscBarButtonItem:miscButton];
     }
     
@@ -1071,7 +1071,7 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
     [self.photosDataSource photoPagesController:self
                    shouldHandleSingleTapGesture:singleTap
                                 forPhotoAtIndex:self.currentPhotoIndex] : YES;
-  
+    
     if(respondToSingleTap){
         [self.currentState photoPagesController:self
                             didReceiveSingleTap:singleTap
@@ -1095,7 +1095,7 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
                             didReceiveDoubleTap:doubleTap
                                withNotification:aNotification];
     }
-
+    
 }
 
 - (void)didRecognizeLongPressWithNotification:(NSNotification *)aNotification
@@ -1106,9 +1106,9 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
     NSMutableDictionary *photoInfo = [NSMutableDictionary dictionaryWithDictionary:tapInfo];
     photoInfo[@"currentPhotoIndex"] = [NSNumber numberWithInteger:self.currentPhotoIndex];
     NSNotification *notification = [NSNotification notificationWithName:aNotification.name
-                                                                    object:aNotification.object
-                                                                  userInfo:photoInfo];
-
+                                                                 object:aNotification.object
+                                                               userInfo:photoInfo];
+    
     BOOL respondToLongPress = [self.photosDataSource respondsToSelector:@selector(photoPagesController:shouldHandleLongPressGesture:forPhotoAtIndex:)] ?
     [self.photosDataSource photoPagesController:self
                    shouldHandleLongPressGesture:longPress
@@ -1242,7 +1242,7 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
     BOOL shouldDismiss = [self.photoPagesDelegate respondsToSelector:@selector(shouldDismissPhotoPagesController:)] ?
     [self.photoPagesDelegate shouldDismissPhotoPagesController:self] : YES;
     
-
+    
     if(shouldDismiss){
         
         if([self.photoPagesDelegate respondsToSelector:
@@ -1262,7 +1262,7 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
             [[NSNotificationCenter defaultCenter] postNotificationName:EBPhotoPagesControllerDidDismissNotification object:self];
         }];
     }
-
+    
 }
 
 
@@ -1290,8 +1290,8 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
     if(activityViewController == nil){
         activityViewController =
         [self.photoPagesFactory activityViewControllerForPhotoPagesController:self
-                                                                  withImage:image
-                                                                    caption:caption];
+                                                                    withImage:image
+                                                                      caption:caption];
     }
     
     
@@ -1303,12 +1303,12 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
     if ([activityViewController respondsToSelector:@selector(popoverPresentationController)]) {
         activityViewController.popoverPresentationController.barButtonItem = barButtonItem;
     }
-
-    [self presentViewController:activityViewController
-                             animated:YES
-                           completion:nil];
     
-    [self setUpperBarAlpha:0];
+    [self presentViewController:activityViewController
+                       animated:YES
+                     completion:nil];
+    
+    [self setUpperBarAlpha:1];
     [self setLowerBarAlpha:0];
 }
 
@@ -1320,13 +1320,13 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
 - (void)startCommenting
 {
     [self.currentPhotoViewController startCommenting];
+    [self setUpperBarAlpha:1];
 }
 
 - (void)cancelCommenting
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:EBPhotoPagesControllerDidCancelCommentingNotification object:self];
 }
-
 
 #pragma mark - Action Sheet Delegate
 
@@ -1382,7 +1382,7 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
 - (void)tagActionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSAssert([self.actionSheetTargetInfo isKindOfClass:[NSDictionary class]],
-            @"Expected action sheet target for tagActionSheet to be an NSDictionary kind of class!");
+             @"Expected action sheet target for tagActionSheet to be an NSDictionary kind of class!");
     EBTagPopover *tagPopover = self.actionSheetTargetInfo[kActionSheetTargetKey];
     NSNumber *indexNumber = self.actionSheetTargetInfo[kActionSheetIndexKey];
     NSInteger index = [indexNumber integerValue];
@@ -1441,7 +1441,7 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
     if([buttonTitle isEqualToString:[self.photoPagesFactory actionSheetReportButtonTitle]]){
         NSLog(@"Reporting photo.");
         if([self.photosDataSource
-           respondsToSelector:@selector(photoPagesController:didReportPhotoAtIndex:)]){
+            respondsToSelector:@selector(photoPagesController:didReportPhotoAtIndex:)]){
             [self.photosDataSource photoPagesController:self didReportPhotoAtIndex:index];
         }
     } else if ([buttonTitle isEqualToString:[self.photoPagesFactory actionSheetTagPhotoButtonTitle]]){
@@ -1470,15 +1470,15 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
         
         [self.captionView setCaption:nil];
         UIViewController *nextPage = [self pageViewController:self
-                                    viewControllerAtIndex:nextIndex];
-    
+                                        viewControllerAtIndex:nextIndex];
+        
         __weak EBPhotoPagesController *controller = self;
         [self setViewControllers:@[nextPage]
-                   direction:UIPageViewControllerNavigationDirectionForward
-                    animated:YES
-                  completion:^(BOOL finished) {
-                [controller setCurrentPhotoIndex:nextIndex];
-                    }];
+                       direction:UIPageViewControllerNavigationDirectionForward
+                        animated:YES
+                      completion:^(BOOL finished) {
+                          [controller setCurrentPhotoIndex:nextIndex];
+                      }];
     } else {
         [self dismiss];
     }
@@ -1490,13 +1490,13 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
                           delay:0.05f
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-//                         tagPopover.transform = CGAffineTransformMakeScale(0.0, 0.0);
+                         //                         tagPopover.transform = CGAffineTransformMakeScale(0.0, 0.0);
                          [tagPopover setTransform:CGAffineTransformMakeTranslation(0.0f, 400.0f)];
                          [tagPopover setAlpha:0.0f];
                      } completion:^(BOOL finished) {
-                             [tagPopover removeFromSuperview];
+                         [tagPopover removeFromSuperview];
                      }];
-
+    
     [self.photosDataSource photoPagesController:self
                             didDeleteTagPopover:tagPopover
                                  inPhotoAtIndex:index];
@@ -1513,7 +1513,7 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
     BOOL result = NO;
     if([self.photosDataSource respondsToSelector:@selector(photoPagesController:shouldAllowDeleteForComment:forPhotoAtIndex:)]){
         result = [self.photosDataSource photoPagesController:self
-                                            shouldAllowDeleteForComment:comment
+                                 shouldAllowDeleteForComment:comment
                                              forPhotoAtIndex:controller.photoIndex];
     }
     
@@ -1530,7 +1530,7 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
 }
 
 - (EBTagPopover *)photoViewController:(EBPhotoViewController *)controller
-                      tagPopoverForTag:(id<EBPhotoTagProtocol>)tag
+                     tagPopoverForTag:(id<EBPhotoTagProtocol>)tag
 {
     NSAssert([controller isKindOfClass:[EBPhotoViewController class]], @"Expected EBPhotoViewController kind of class.");
     return [self.photoPagesFactory photoPagesController:self
