@@ -825,7 +825,12 @@ didReceiveSingleTap:(UITapGestureRecognizer *)singleTap
 {
     NSAssert(self.activeOperations, @"Must have a pendingOperations set.");
     [self.activeOperations addObject:operation];
-    [self showActivityIndicator];
+    
+    // I've added below if check
+    if ([operation isKindOfClass:NSClassFromString(@"EBImageLoadOperation")]) {
+        [self.activeOperations addObject:operation];
+        [self showActivityIndicator];
+    }
 }
 
 - (void)operationDidStopLoading:(NSOperation *)operation
@@ -834,7 +839,10 @@ didReceiveSingleTap:(UITapGestureRecognizer *)singleTap
     NSAssert([self.activeOperations containsObject:operation], @"PendingOperations did not contain given operation.");
     
     [self.activeOperations removeObject:operation];
-    if(self.activeOperations.count == 0){
+    // I've removed below if
+    // if(self.activeOperations.count == 0){
+    //I've added below if check
+    if ([operation isKindOfClass:NSClassFromString(@"EBImageLoadOperation")]) {
         [self hideActivityIndicator];
     }
 }
