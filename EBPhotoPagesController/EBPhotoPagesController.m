@@ -149,6 +149,10 @@ static NSString *kActionSheetIndexKey= @"actionSheetTargetIndex";
     [self stopObservations];
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
 #pragma mark - Memory Management
 
 - (void)didReceiveMemoryWarning
