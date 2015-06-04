@@ -230,7 +230,7 @@ static NSString *FrameKeyPath = @"frame";
         subviewsRect = CGRectUnion(subviewsRect, view.frame);
     }
     
-    CGFloat contentHeight = subviewsRect.size.height + 10;
+    CGFloat contentHeight = subviewsRect.size.height + 15;
     [self setContentSize:CGSizeMake(1, contentHeight)];
     CGFloat topInset = self.bounds.size.height - MIN(contentHeight, 65);
     [self setContentInset:UIEdgeInsetsMake(topInset, 0, 0, 0)];
@@ -304,7 +304,7 @@ static NSString *FrameKeyPath = @"frame";
     [label setNumberOfLines:MaximumNumberOfCaptionLines];
     [label setBackgroundColor:[UIColor clearColor]];
     [label setTextColor:[UIColor whiteColor]];
-    [label setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:15]];
+    [label setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:17]];
     [label setShadowColor:[UIColor colorWithWhite:0 alpha:0.5]];
     [label setShadowOffset:CGSizeMake(0, 1)];
     return label;

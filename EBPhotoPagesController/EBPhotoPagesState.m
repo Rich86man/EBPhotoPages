@@ -155,8 +155,9 @@
 {
     
     [photoViewController.photoView bouncePhoto];
-    [controller enterCommentsMode];
-    //    [controller presentActivitiesForPhotoViewController:photoViewController];
+    //    [controller enterCommentsMode];
+    [controller dismiss];
+    //        [controller presentActivitiesForPhotoViewController:photoViewController];
     
 }
 
@@ -197,6 +198,7 @@
          didReceiveDoubleTap:(UITapGestureRecognizer *)doubleTapGesture
             withNotification:(NSNotification *)aNotification
 {
+    [controller enterCommentsMode];
     if([aNotification.object isKindOfClass:[EBPhotoView class]]){
         EBPhotoView *photoView = aNotification.object;
         [photoView zoomToPoint:[doubleTapGesture locationInView:photoView]];
@@ -462,8 +464,8 @@
 }
 
 - (void)photoPagesController:(EBPhotoPagesController *)controller
-didFinishAddingTag:(EBTagPopover *)tagPopover
-forPhotoAtIndex:(NSInteger)index
+          didFinishAddingTag:(EBTagPopover *)tagPopover
+             forPhotoAtIndex:(NSInteger)index
 {
     id<EBPhotoPagesDataSource> datasource = controller.photosDataSource;
     if([datasource respondsToSelector:@selector(photoPagesController:
@@ -485,7 +487,7 @@ forPhotoAtIndex:(NSInteger)index
 
 
 - (void)photoPagesController:(EBPhotoPagesController *)controller
-didSelectCancelButton:(id)sender
+       didSelectCancelButton:(id)sender
 {
     [controller cancelCurrentTagging];
     [controller enterTaggingMode];
