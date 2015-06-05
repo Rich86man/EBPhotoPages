@@ -160,6 +160,12 @@ static NSString *TagPopoversKeyPath = @"tagPopovers";
     
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self showActivityIndicator];
+}
+
 #pragma mark - Loading
 
 

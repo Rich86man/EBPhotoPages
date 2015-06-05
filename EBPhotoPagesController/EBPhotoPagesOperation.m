@@ -37,7 +37,6 @@
         [self setLoadingFinished:NO];
         [self operationWillStart];
         [self loadData];
-        [self operationDidFinish];
     }
 }
 
@@ -109,6 +108,8 @@
             [self.photoViewController performSelectorOnMainThread:@selector(setImage:)
                                                        withObject:image
                                                     waitUntilDone:YES];
+                                
+            [self operationDidFinish];
         }];
     }
 }
